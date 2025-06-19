@@ -1,0 +1,74 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "imap-cleanup"
+dynamic = ["version"]
+description = "A command-line tool to manage and clean up IMAP mailboxes based on configurable retention rules. Supports interactive configuration and multi-account management."
+authors = [
+    { name = "Joerg Heinrich", email = "joerg@jfheinrich.eu" }
+]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "questionary",
+    "rich",
+    "tqdm",
+    "toml"
+]
+license = { file = "LICENSE" }
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: End Users/Desktop",
+    "Topic :: Communications :: Email"
+]
+
+[project.scripts]
+imap-cleanup = "imap_cleanup.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/jfheinrich-eu/imap-cleanup"
+Repository = "https://github.com/jfheinrich-eu/imap-cleanup"
+Issues = "https://github.com/jfheinrich-eu/imap-cleanup/issues"
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-mock",
+    "pytest-cov",
+    "coverage",
+    "build",
+    "twine"
+]
+
+[tool.setuptools.dynamic]
+version = {file = "src/imap_cleanup/VERSION"}
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra --tb=short --strict-markers --cov=imap_cleanup --cov-report=term-missing --cov-report=html:coverage"
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+testpaths = [
+    "tests"
+]
+log_cli = true
+log_cli_level = "INFO"
+
+[tool.coverage.run]
+branch = true
+source = [
+    "imap_cleanup"
+]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+
+[tool.setuptools.packages.find]
+where = ["src"] 
