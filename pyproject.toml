@@ -1,23 +1,10 @@
-[build-system]
-requires = ["setuptools>=61.0", "wheel"]
-build-backend = "setuptools.build_meta"
-
-[project]
+[tool.poetry]
 name = "imap-cleanup"
-dynamic = ["version"]
+version = "0.1.0"
 description = "A command-line tool to manage and clean up IMAP mailboxes based on configurable retention rules. Supports interactive configuration and multi-account management."
-authors = [
-    { name = "Joerg Heinrich", email = "joerg@jfheinrich.eu" }
-]
+authors = ["Joerg Heinrich <contact@jfheinrich.eu>"]
 readme = "README.md"
-requires-python = ">=3.13"
-dependencies = [
-    "questionary",
-    "rich",
-    "tqdm",
-    "toml"
-]
-license = { file = "LICENSE" }
+license = "MIT"
 classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.13",
@@ -26,27 +13,30 @@ classifiers = [
     "Intended Audience :: End Users/Desktop",
     "Topic :: Communications :: Email"
 ]
-
-[project.scripts]
-imap-cleanup = "imap_cleanup.cli:main"
-
-[project.urls]
-Homepage = "https://github.com/jfheinrich-eu/imap-cleanup"
-Repository = "https://github.com/jfheinrich-eu/imap-cleanup"
-Issues = "https://github.com/jfheinrich-eu/imap-cleanup/issues"
-
-[project.optional-dependencies]
-dev = [
-    "pytest",
-    "pytest-mock",
-    "pytest-cov",
-    "coverage",
-    "build",
-    "twine"
+packages = [
+    { include = "imap_cleanup", from = "src" }
 ]
 
-[tool.setuptools.dynamic]
-version = {file = "src/imap_cleanup/VERSION"}
+[tool.poetry.dependencies]
+python = ">=3.8"
+rich = "*"
+tqdm = "*"
+questionary = "*"
+toml = "*"
+
+[tool.poetry.scripts]
+imap-cleanup = "imap_cleanup.cli:main"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "*"
+pytest-cov = "*"
+coverage = "*"
+build = "*"
+twine = "*"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
 
 [tool.pytest.ini_options]
 minversion = "7.0"
@@ -70,5 +60,15 @@ source = [
 show_missing = true
 skip_covered = true
 
-[tool.setuptools.packages.find]
-where = ["src"] 
+[[tool.poetry.source]]
+name = "pypi-public"
+url = "https://pypi.org/simple/"
+
+[tool.poetry.requires-plugins]
+poethepoet = ">=0.35"
+
+[tool.poe.tasks]
+test = "pytest"
+build = "poetry build"
+publish = "poetry publish"
+serve = "python -m http.server -d ./coverage"
