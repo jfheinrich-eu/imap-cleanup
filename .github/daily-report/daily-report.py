@@ -3,9 +3,10 @@
 import os
 import smtplib
 from datetime import datetime, timedelta, timezone
-from github import Github
-from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+from github import Github
 from openai import OpenAI
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
@@ -57,8 +58,9 @@ Analysiere mögliche Probleme, TODOs oder Code-Smells und gib Empfehlungen.
 """
 
     response = client.chat.completions.create(
-        model="gpt-4.1-nano", messages=[{"role": "user", "content": prompt}],
-        temperature=0.4
+        model="gpt-4.1-nano",
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.4,
     )
     return response.choices[0].message.content.strip()
 

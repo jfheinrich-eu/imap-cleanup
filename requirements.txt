@@ -1,4 +1,4 @@
 questionary
 rich
 tqdm
-toml 
+toml
