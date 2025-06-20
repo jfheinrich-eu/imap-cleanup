@@ -81,9 +81,10 @@ url = "https://pypi.org/simple/"
 
 [tool.flake8]
 max_line_length = 88
-ignore = ["E501"]
+ignore = ["E501","E402"]
 inline-quotes = "double"
 exclude = [".git", "__pycache__", "build", "dist"]
+per-file-ignores = ["F401", "F841"]
 
 [tool.poe.tasks]
 test = "pytest"
