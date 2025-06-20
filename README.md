@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.svg" alt="imap-cleanup logo" width="200"/>
+</p>
+
 # imap-cleanup
 
 A Python tool for automated cleanup of IMAP mailboxes based on configurable rules.
