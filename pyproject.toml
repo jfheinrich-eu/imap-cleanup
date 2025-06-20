@@ -1,10 +1,12 @@
-[tool.poetry]
+[project]
 name = "imap-cleanup"
 version = "0.1.0"
 description = "A command-line tool to manage and clean up IMAP mailboxes based on configurable retention rules. Supports interactive configuration and multi-account management."
-authors = ["Joerg Heinrich <contact@jfheinrich.eu>"]
+authors = [
+    {name = "Joerg Heinrich", email = "contact@jfheinrich.eu"}
+]
 readme = "README.md"
-license = "MIT"
+license = { text = "MIT" }
 classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.13",
@@ -13,26 +15,35 @@ classifiers = [
     "Intended Audience :: End Users/Desktop",
     "Topic :: Communications :: Email"
 ]
-packages = [
-    { include = "imap_cleanup", from = "src" }
+requires-python = ">=3.13"
+dependencies = [
+    "rich",
+    "tqdm",
+    "questionary",
+    "toml"
 ]
 
-[tool.poetry.dependencies]
-python = ">=3.8"
-rich = "*"
-tqdm = "*"
-questionary = "*"
-toml = "*"
+[project.urls]
+Homepage = "https://github.com/jfheinrich-eu/imap-cleanup"
+Repository = "https://github.com/jfheinrich-eu/imap-cleanup"
+Issues = "https://github.com/jfheinrich-eu/imap-cleanup/issues"
+Changelog = "https://github.com/jfheinrich-eu/imap-cleanup/releases"
+Logo = "https://github.com/jfheinrich-eu/imap-cleanup/raw/main/logo.svg"
 
-[tool.poetry.scripts]
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "coverage",
+    "build",
+    "twine",
+    "flake8>=7.2.0",
+    "flake8-pyproject>=1.2.3",
+    "poethepoet>=0.35"
+]
+
+[project.scripts]
 imap-cleanup = "imap_cleanup.cli:main"
-
-[tool.poetry.group.dev.dependencies]
-pytest = "*"
-pytest-cov = "*"
-coverage = "*"
-build = "*"
-twine = "*"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
@@ -64,8 +75,11 @@ skip_covered = true
 name = "pypi-public"
 url = "https://pypi.org/simple/"
 
-[tool.poetry.requires-plugins]
-poethepoet = ">=0.35"
+[tool.flake8]
+max_line_length = 88
+ignore = ["E501"]
+inline-quotes = "double"
+exclude = [".git", "__pycache__", "build", "dist"]
 
 [tool.poe.tasks]
 test = "pytest"
