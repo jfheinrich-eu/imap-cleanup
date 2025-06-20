@@ -39,7 +39,11 @@ dev = [
     "twine",
     "flake8>=7.2.0",
     "flake8-pyproject>=1.2.3",
-    "poethepoet>=0.35"
+    "poethepoet>=0.35",
+    "black>=25.1.0",
+    "isort>=6.0.1",
+    "pyupgrade>=3.20.0",
+    "pre-commit>=3.7.0"
 ]
 
 [project.scripts]
@@ -86,3 +90,4 @@ test = "pytest"
 build = "poetry build"
 publish = "poetry publish"
 serve = "python -m http.server -d ./coverage"
+pre-commit = "pre-commit run --all-files"
