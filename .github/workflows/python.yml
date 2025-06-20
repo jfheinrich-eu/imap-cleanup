@@ -27,7 +27,7 @@ jobs:
           poetry run flake8 .
 
       - name: Automatic requirements.txt for Python Project
-        uses: jfheinrich-eu/pipreqs-action@v4.2.1
+        uses: jfheinrich-eu/pipreqs-action@v4.2.3
         with:
           PROJECT_PATH: .
           REQUIREMENT_PATH: requirements.txt
