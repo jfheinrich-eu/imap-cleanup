@@ -1,0 +1,52 @@
+name: Daily GitHub Report
+
+on:
+  schedule:
+    - cron: "0 6 * * *" # täglich um 6:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - id: setup-secrets
+        name: Setup secrets
+        env:
+          PSONO_CI_API_KEY_ID: ${{ secrets.PSONO_API_KEY_ID }}
+          PSONO_CI_API_SECRET_KEY_HEX: ${{ secrets.PSONO_API_SECRET_KEY_HEX }}
+          PSONO_CI_SERVER_URL: ${{ vars.PSONO_SERVER_URL }}
+          PSONO_GITHUB_TOKEN_ID: ${{ secrets.PSONO_GITHUB_CLI_TOKEN }}
+          PSONO_DAILY_REPORT_ENV: ${{ secrets.PSONO_OPENAI_ENV }}
+        run: |
+          sudo apt update >/dev/null && sudo apt install -y curl >/dev/null
+          curl https://get.psono.com/psono/psono-ci/x86_64-linux/psonoci --output psonoci >/dev/null && chmod +x psonoci
+          ci_psono_registry_github_token="$(./psonoci secret get ${PSONO_GITHUB_TOKEN_ID} password)"
+          echo "::add-mask::$ci_psono_registry_github_token"
+          echo "ci_registry_github_token=$ci_psono_registry_github_token" >> "$GITHUB_OUTPUT"
+          ci_psono_openai_api_key="$(./psonoci env-vars get-or-create ${PSONO_DAILY_REPORT_ENV} OPENAI_API_KEY)"
+          echo "::add-mask::$ci_psono_openai_api_key"
+          echo "ci_openai_api_key=$ci_psono_openai_api_key" >> "$GITHUB_OUTPUT"
+          ci_psono_email_password="$(./psonoci env-vars get-or-create ${PSONO_DAILY_REPORT_ENV} EMAIL_PASSWORD)"
+          echo "::add-mask::$ci_psono_email_password"
+          echo "ci_email_password=$ci_psono_email_password" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install --upgrade PyGithub openai
+
+      - name: Run Report Script
+        env:
+          OPENAI_API_KEY: ${{ steps.setup-secrets.outputs.ci_openai_api_key }}
+          EMAIL_PASSWORD: ${{ steps.setup-secrets.outputs.ci_email_password }}
+          GITHUB_TOKEN: ${{ steps.setup-secrets.outputs.ci_registry_github_token }}
+        run: cd .github/daily-report && python daily-report.py
