@@ -1,0 +1,8 @@
+[flake8]
+extend-ignore = E501,E402
+inline-quotes = double
+max_line_length = 88
+exclude = .git,__pycache__,build,dist
+per-file-ignores =
+    cli.py: F401,F841
+    tests/test_*.py: F401

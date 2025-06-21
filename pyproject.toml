@@ -1,23 +1,12 @@
-[build-system]
-requires = ["setuptools>=61.0", "wheel"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "imap-cleanup"
-dynamic = ["version"]
+version = "0.1.0"
 description = "A command-line tool to manage and clean up IMAP mailboxes based on configurable retention rules. Supports interactive configuration and multi-account management."
 authors = [
-    { name = "Joerg Heinrich", email = "joerg@jfheinrich.eu" }
+    {name = "Joerg Heinrich", email = "contact@jfheinrich.eu"}
 ]
 readme = "README.md"
-requires-python = ">=3.13"
-dependencies = [
-    "questionary",
-    "rich",
-    "tqdm",
-    "toml"
-]
-license = { file = "LICENSE" }
+license = { text = "MIT" }
 classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.13",
@@ -26,27 +15,43 @@ classifiers = [
     "Intended Audience :: End Users/Desktop",
     "Topic :: Communications :: Email"
 ]
-
-[project.scripts]
-imap-cleanup = "imap_cleanup.cli:main"
+requires-python = ">=3.13"
+dependencies = [
+    "rich",
+    "tqdm",
+    "questionary",
+    "toml"
+]
 
 [project.urls]
 Homepage = "https://github.com/jfheinrich-eu/imap-cleanup"
 Repository = "https://github.com/jfheinrich-eu/imap-cleanup"
 Issues = "https://github.com/jfheinrich-eu/imap-cleanup/issues"
+Changelog = "https://github.com/jfheinrich-eu/imap-cleanup/releases"
+Logo = "https://github.com/jfheinrich-eu/imap-cleanup/raw/main/logo.svg"
 
 [project.optional-dependencies]
 dev = [
     "pytest",
-    "pytest-mock",
     "pytest-cov",
     "coverage",
     "build",
-    "twine"
+    "twine",
+    "flake8>=7.2.0",
+    "flake8-pyproject>=1.2.3",
+    "poethepoet>=0.35",
+    "black>=25.1.0",
+    "isort>=6.0.1",
+    "pyupgrade>=3.20.0",
+    "pre-commit>=3.7.0"
 ]
 
-[tool.setuptools.dynamic]
-version = {file = "src/imap_cleanup/VERSION"}
+[project.scripts]
+imap-cleanup = "imap_cleanup.cli:main"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
 
 [tool.pytest.ini_options]
 minversion = "7.0"
@@ -70,5 +75,23 @@ source = [
 show_missing = true
 skip_covered = true
 
-[tool.setuptools.packages.find]
-where = ["src"] 
+[[tool.poetry.source]]
+name = "pypi-public"
+url = "https://pypi.org/simple/"
+
+[tool.flake8]
+max_line_length = 88
+ignore = ["E501","E402"]
+inline-quotes = "double"
+exclude = [".git", "__pycache__", "build", "dist"]
+per-file-ignores = [
+    "cli.py:F401", "cli.py:F841",
+    "tests/test_*.py:F401"
+]
+
+[tool.poe.tasks]
+test = "pytest"
+build = "poetry build"
+publish = "poetry publish"
+serve = "python -m http.server -d ./coverage"
+pre-commit = "pre-commit run --all-files"

@@ -1,0 +1,14 @@
+<!-- filepath: /home/joerg/src/jfheinrich-eu/imap-cleanup/logo.svg -->
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="256" height="256" rx="48" fill="#2D3748"/>
+  <g>
+    <!-- Envelope -->
+    <rect x="48" y="80" width="160" height="96" rx="16" fill="#fff" stroke="#4FD1C5" stroke-width="6"/>
+    <polyline points="48,80 128,144 208,80" fill="none" stroke="#4FD1C5" stroke-width="6"/>
+    <!-- Broom -->
+    <rect x="170" y="140" width="12" height="48" rx="6" fill="#ECC94B"/>
+    <polygon points="176,188 166,210 186,210" fill="#ECC94B" stroke="#B7791F" stroke-width="3"/>
+    <rect x="172" y="130" width="8" height="16" rx="4" fill="#B7791F"/>
+  </g>
+  <text x="50%" y="60" text-anchor="middle" font-size="32" fill="#4FD1C5" font-family="Arial, sans-serif" font-weight="bold">imap-cleanup</text>
+</svg>

@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.svg" alt="imap-cleanup logo" width="200"/>
+</p>
+
 # imap-cleanup
 
 A Python tool for automated cleanup of IMAP mailboxes based on configurable rules.
@@ -44,7 +48,7 @@ pytest
 ```
 
 ## Packaging
-The project is ready for modern packaging with `pyproject.toml`. 
+The project is ready for modern packaging with `pyproject.toml`.
 
 ## Beispiel config.toml
 
@@ -61,4 +65,4 @@ INBOX = { retention_days = 30 }
 Archive = { retention_days = 90 }
 ```
 
-**Achtung:** Das Passwort wird im Klartext in der Konfigurationsdatei gespeichert. Dies stellt ein Sicherheitsrisiko dar. Stelle sicher, dass die Datei geschützt ist und erwäge alternative Methoden zur sicheren Passwortspeicherung (z.B. Umgebungsvariablen oder Keyring). 
+**Achtung:** Das Passwort wird im Klartext in der Konfigurationsdatei gespeichert. Dies stellt ein Sicherheitsrisiko dar. Stelle sicher, dass die Datei geschützt ist und erwäge alternative Methoden zur sicheren Passwortspeicherung (z.B. Umgebungsvariablen oder Keyring).
