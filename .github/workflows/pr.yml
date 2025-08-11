@@ -25,7 +25,7 @@ jobs:
         shell: bash
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - uses: octue/generate-pull-request-description@1.0.0.beta-2
         id: pr-description
@@ -61,7 +61,7 @@ jobs:
           secret_fields: "password"
           mask_secrets: "password"
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - uses: jefflinse/pr-semver-bump@v1.7.2
         name: Validate Pull Request Metadata
